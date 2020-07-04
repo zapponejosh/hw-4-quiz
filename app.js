@@ -63,73 +63,126 @@ var questions = [
 ]
 
 
-var quizStatus = localStorage.getItem("quizStatus")
+var quizStatus = localStorage.getItem("quizStatus");
+var highscoresList = localStorage.getItem("highscoreList");
+
+highscoresList = [
+    {
+        user: "Josh",
+        score: 120
+    },
+    {
+        user: "Josh",
+        score: 120
+    }
+]
+localStorage.setItem("highscoresList", JSON.stringify(highscoresList));
 
 // Landing section
+var timerContainer = $("#timer-container");
+var startSection = $("#landing-container");
 var startButton = $("#start");
+var highscoresButton = $("#lp-scores");
+// Quiz container
 var quizSection = $("#quiz");
-var startSection = $("#landing-container")
-startButton.on("click", startQuiz);
 
-
-
-// When user clicks start quiz
 var answerDiv = $("#answers");
 var questionH3 = $("#question");
+var timer = 60;
+var userScore = 0;
+
+
+var resultDiv = $("#result");
+var nextBtn = $("#next-btn");
+var qIndex, username;
+
+var highscores = $("#highscores");
+var scoreList = $("#score-list");
+var restartButton = $("#restart");
+
+
+
+startButton.on("click", startQuiz);
+highscoresButton.on("click", highscoreSection);
+restartButton.on("click", restart);
+
+function restart() {
+    timer = 60;
+    document.getElementById("timer-container").innerHTML = '<span id="timer">60</span> seconds remaining';
+    timerContainer.removeClass("hide");
+    qIndex = 0;
+    startQuiz();
+}
 
 function startQuiz() {
+    username = prompt("enter username");
+
+    function quizTimer() {
+        document.getElementById('timer').innerHTML = timer;
+        timer--;
+        if (timer < 0) {
+          document.getElementById("timer-container").innerHTML = "Time's up!";
+        }
+        else {
+          setTimeout(quizTimer, 1000);
+        }
+      }
+    quizTimer()
     console.log("starting...");
     startSection.addClass("hide");
+    highscores.addClass("hide");
     quizSection.removeClass("hide");
-    displayQuestion();
+    qIndex = 0;
+    console.log(qIndex);
+    displayQuestion(qIndex);
+    
 
 }
 
-function displayQuestion() {
-questions.forEach(question => {
-    var title = question.title;
+function displayQuestion(qIndex) {
+    console.log(typeof qIndex)
+    
+    var title = questions[qIndex]['title'];
     questionH3.text(title);
-    quizStatus = question.number;
+    quizStatus = questions[qIndex]['number'];
     localStorage.setItem("quizStatus", quizStatus);
-    answerDiv.html("");
-    userChoice(question);
-    // nextQuestion();
-    
-    
-});
-}
-
-// userChoice(questions[0]);
-
-// When an answer is clicked
-function userChoice(currentQ) {
     // list out answers in child divs
-    $.each(currentQ.choices, function (i, choice) { 
-        console.log(choice);
+    $.each(questions[qIndex].choices, function (i, choice) { 
+        // console.log(choice);
         var aClass = 'a' + (i+1);
         answerDiv.append("<div class='box " + aClass + "'>"+ choice+ "</div>");
-        
-        
     });
+    checkAnswer(questions[qIndex]);
+}
+
+
+// When an answer is clicked
+function checkAnswer(question) {
+
     // listen for answer
     answerDiv.delegate(".box", "click", function() {
         var selected = $( this ).text()
-        $( this ).addClass("clicked");
+        // $( this ).addClass("clicked");
         console.log(selected);
         answerDiv.off();
         // Is answer correct?
         var result = "";
-        if (selected === currentQ.answer) {
-            result = true;
+        if (selected === question.answer) {
+            result = "Correct!";
+            timer += 5;
+            userScore += 4
+            $( this ).addClass("correct");
+
             console.log(true);
             
         } else {
-            result = false;
+            result = "Incorrect.";
+            timer -= 15;
+            $( this ).addClass("wrong");
             console.log(false);
             
         }
-        var resultDiv = $("#result");
-        var nextBtn = $("#next-btn");
+        
         resultDiv.text(result);
         resultDiv.removeClass("hide");
         nextBtn.removeClass("hide");
@@ -143,11 +196,79 @@ function userChoice(currentQ) {
 }
 
 // after answer is selected user goes to next question
+nextBtn.on("click", nextQuestion);
+
 function nextQuestion() {
+    answerDiv.html("");
+    
+    qIndex++;
+    if (timer < 1) {
+        highscoreSection();
+    } else if (qIndex > questions.length - 1) {
+        timerContainer.addClass("hide");
+        highscoreSection();
+    } else {
+        displayQuestion(qIndex);
+    }
+    nextBtn.addClass("hide");
+    resultDiv.addClass("hide");
 
 
 }
 
-function answerSelected() {
+function highscoreSection() {
+    scoreList.html("<h3>High Scores</h3><tr><th>Name</th><th>Score</th></tr>")
     
+    currentStatus = localStorage.getItem("quizStatus");
+    
+
+    startSection.addClass("hide");
+    console.log("finished");
+    quizSection.addClass("hide");
+    highscores.removeClass("hide");
+    var list = JSON.parse(localStorage.getItem("highscoresList"));
+    console.log(list);
+    if (username && userScore) {
+        var userObject = {
+            user: username,
+            score: userScore
+        }
+        list.push(userObject);
+
+        // sorting high scores with new score
+        function scoreSort(a, b) {
+            var scoreA = a.score;
+            const scoreB = b.score;
+          
+            let comparison = 0;
+            if (scoreA > scoreB) {
+              comparison = -1;
+            } else if (scoreA < scoreB) {
+              comparison = 1;
+            }
+            return comparison;
+          }
+        list = list.sort(scoreSort)
+        console.log(list);
+        list.forEach(score => {
+            scoreList.append(
+            "<tr><td>" + score.user + "</td><td>" + score.score + "</td></tr>")
+        });
+    } else {
+        list.forEach(score => {
+            scoreList.append(
+            "<tr><td>" + score.user + "</td><td>" + score.score + "</td></tr>")
+        });
+    }
+    
+    if (currentStatus < 2) {
+        restartButton.text("Take the quiz!");
+
+    } else {
+        restartButton.text("Try again!");
+    }
+
+
+    localStorage.setItem("highscoresList", JSON.stringify(list));
+
 }

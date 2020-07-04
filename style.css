@@ -72,10 +72,23 @@ body {
 }
 
 .answer {
+    font-size: 2rem;
     grid-area: answer;
     color: red;
     text-align: center;
     padding: 10px;
+}
+
+/* answer result */
+.correct {
+    background-color: green;
+    color: white;
+}
+
+.wrong {
+    background-color: red;
+    color: white;
+
 }
 
 /* To hide sections not in use */
@@ -83,6 +96,9 @@ body {
     display: none;
 }
 
+#highsores {
+    font-size: 2rem;
+}
 
 @media(max-width: 700px) {
     #quiz-grid {

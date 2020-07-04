@@ -12,7 +12,7 @@
   </head>
   <body>
     <header>
-        <h4>Time <span>1:00</span></h4>
+        <h4 id="timer-container"><span id="timer">60</span> seconds remaining</h4>
     </header>  
 
     <main>
@@ -30,7 +30,7 @@
               </ul>
               <p>
                   <button id="start" class="btn btn-primary btn-lg" >Start Quiz!</button>
-                  <button class="btn btn-primary btn-lg">See Highscores</button>
+                  <button id="lp-scores" class="btn btn-primary btn-lg">See Highscores</button>
               </p>
               <p>
                 
@@ -50,10 +50,23 @@
 
         <div id="next-btn" class="box btn-next hide">Next</div>
         <div id="result" class="answer hide">Wrong!</div>
+      </section>
 
-
-          
-        
+      <section id="highscores" class="hide">
+        <h2 id="user-score" class=""></h2>
+        <div>
+          <table id="score-list">
+            <!-- <h3>High Scores</h3>
+            <tr>
+              <th>Name</th>
+              <th>Score</th>
+            </tr>
+             -->
+          </table>
+        </div>
+        <p>
+          <button id="restart" class="btn btn-primary btn-lg" ></button>
+      </p>
       </section>
     </main>
 
