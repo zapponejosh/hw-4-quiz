@@ -171,6 +171,7 @@ function checkAnswer(question) {
             result = "Correct!";
             timer += 5;
             userScore += 4
+
             $( this ).addClass("correct");
 
             console.log(true);
@@ -229,6 +230,11 @@ function highscoreSection() {
     var list = JSON.parse(localStorage.getItem("highscoresList"));
     console.log(list);
     if (username && userScore) {
+        if (timer < 1) {
+            userScore = userScore + (1 * 2) * 3
+        } else {
+            userScore = userScore + (timer * 2) * 3
+        }
         var userObject = {
             user: username,
             score: userScore
