@@ -1,8 +1,28 @@
 body {
     margin: 40px;
+    justify-content: center;
+    text-align: center;
 }
 
+header {
+    text-align: center;
+    font-size: 1.8rem;
+}
 
+.rules {
+    text-align: left;
+    margin: 15px auto;
+    max-width: 400px;
+}
+
+.rules th {
+    height: 10px;
+    vertical-align: top;
+}
+
+.btn {
+    margin: 10px;
+}
 
 .quiz-grid {
     margin: 0 15%;
@@ -20,7 +40,6 @@ body {
 
 #question {
     grid-area: question;
-    background-color: aqua;
     text-align: center;
 }
 
@@ -35,10 +54,10 @@ body {
     cursor: pointer;
 }
 
-.box.clicked {
+/* .box.clicked {
     border: 1px solid black;
     background-color: white;
-}
+} */
 
 .answer-grid {
     grid-area: answer-g;
@@ -51,19 +70,19 @@ body {
 
 .a1 {
     grid-area: a1;
-    background-color: aquamarine;
+    background-color: rgb(26, 211, 149);
 }
 .a2 {
     grid-area: a2;
-    background-color: green;
+    background-color: rgb(26, 211, 149);
 }
 .a3 {
     grid-area: a3;
-    background-color: burlywood;
+    background-color: rgb(26, 211, 149);
 }
 .a4 {
     grid-area: a4;
-    background-color: darkolivegreen;
+    background-color: rgb(26, 211, 149);
 }
 .btn-next {
     grid-area: next;
@@ -91,24 +110,58 @@ body {
 
 }
 
+/* next btn */
+#next-btn {
+    margin-left: 200px;
+}
+
 /* To hide sections not in use */
 .hide {
     display: none;
 }
 
-#highsores {
+#highscores h3 {
     font-size: 2rem;
+}
+#score-list {
+    margin: 0 auto;
+    font-size: 1.3rem;
+}
+
+@media(max-width : 900px) {
+    #next-btn {
+        margin-left: 100px;
+    }
 }
 
 @media(max-width: 700px) {
     #quiz-grid {
         grid-template-areas: 
         'question'
-        'a1'
-        'a2'
-        'a3'
-        'a4'
+        'answer-g'
         'answer'
         'next';
+    }
+    .answer-grid {
+        grid-area: answer-g;
+        display: grid;
+        gap: 10px;
+        grid-template-areas: 
+        'a1'
+        'a2'
+        'a3' 
+        'a4';
+    }
+    .answer {
+        font-size: 1.2rem;
+    }
+}
+
+@media(max-width: 400px) {
+    #next-btn {
+        margin-left: 0;
+    }
+    .display-3 {
+        font-size: 3rem;
     }
 }

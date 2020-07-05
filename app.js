@@ -1,82 +1,88 @@
 var questions = [
-    {
-        title: 'Commonly used data types DO NOT include:',
-        choices: ['strings', 'booleans', 'alerts', 'numbers'],
-        answer: 'alerts',
-        number: 1
-
-    },
-    {
-        title: 'The condition in an if / else statement is enclosed within ____.',
-        choices: ['quotes', 'curly brackets', 'parentheses', 'square brackets'],
-        answer: 'parentheses',
-        number: 2
-    },
-    {
-        title: 'The condition in an if / else statement is enclosed within ____.',
-        choices: ['quotes', 'curly brackets', 'parentheses', 'square brackets'],
-        answer: 'parentheses',
-        number: 3
-    },
-    {
-        title: 'The condition in an if / else statement is enclosed within ____.',
-        choices: ['quotes', 'curly brackets', 'parentheses', 'square brackets'],
-        answer: 'parentheses',
-        number: 4
-    },
-    {
-        title: 'The condition in an if / else statement is enclosed within ____.',
-        choices: ['quotes', 'curly brackets', 'parentheses', 'square brackets'],
-        answer: 'parentheses',
-        number: 5
-    },
-    {
-        title: 'The condition in an if / else statement is enclosed within ____.',
-        choices: ['quotes', 'curly brackets', 'parentheses', 'square brackets'],
-        answer: 'parentheses',
-        number: 6
-    },
-    {
-        title: 'The condition in an if / else statement is enclosed within ____.',
-        choices: ['quotes', 'curly brackets', 'parentheses', 'square brackets'],
-        answer: 'parentheses',
-        number: 7
-    },
-    {
-        title: 'The condition in an if / else statement is enclosed within ____.',
-        choices: ['quotes', 'curly brackets', 'parentheses', 'square brackets'],
-        answer: 'parentheses',
-        number: 8
-    },
-    {
-        title: 'The condition in an if / else statement is enclosed within ____.',
-        choices: ['quotes', 'curly brackets', 'parentheses', 'square brackets'],
-        answer: 'parentheses',
-        number: 9
-    },
-    {
-        title: 'The condition in an if / else statement is enclosed within ____.',
-        choices: ['QUOTES', 'curly brackets', 'parentheses', 'square brackets'],
-        answer: 'parentheses',
-        number: 10
-    }
-]
-
+  {
+    title: "Commonly used data types DO NOT include:",
+    choices: ["strings", "booleans", "alerts", "numbers"],
+    answer: "alerts",
+    number: 1,
+  },
+  {
+    title: "The condition in an if / else statement is enclosed within ____.",
+    choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
+    answer: "parentheses",
+    number: 2,
+  },
+  {
+    title: "Which of the following is truthy?",
+    choices: ["'0'", "null", "-0", "NaN"],
+    answer: "'0'",
+    number: 3,
+  },
+  {
+    title: "What is the correct way to call the random method on the Math global object?",
+    choices: ["random.Math()", "math(random)", "Math.random()", "math.Random()"],
+    answer: "Math.random()",
+    number: 4,
+  },
+  {
+    title: "What are variables used for in JavaScript?",
+    choices: ["For changing browser language settings", "For holding data", "For changing a value's data type"],
+    answer: "For holding data",
+    number: 5,
+  },
+  {
+    title: "A ternary is an array method.",
+    choices: ["True", "False"],
+    answer: "False",
+    number: 6,
+  },
+  {
+    title: "The correct way to create a comment in JavaScript is ____.",
+    choices: ["// my comment", "-- my comment --", "/* My Comment */", "-comment: my comment"],
+    answer: "// my comment",
+    number: 7,
+  },
+  {
+    title: "Which will return the length of an array?",
+    choices: ["length(array)", "array.length()", "'array'.length()", "array.length"],
+    answer: "array.length",
+    number: 8,
+  },
+  {
+    title: "console.log() is helpful for ___.",
+    choices: ["Sending messages to the user", "Debugging your code", "Sending commands to the browser", "storing data in localStorage"],
+    answer: "Debugging your code",
+    number: 9,
+  },
+  {
+    title: "What is string concatenation?",
+    choices: ["When you assign a string to a variable", "When you join strings together", "When you change a variable's value", "When you print a string to the console"],
+    answer: "When you join strings together",
+    number: 10,
+  },
+];
 
 var quizStatus = localStorage.getItem("quizStatus");
 var highscoresList = localStorage.getItem("highscoreList");
+console.log(highscoresList);
 
 highscoresList = [
     {
-        user: "Josh",
-        score: 120
+      user: "My name is Josh",
+      score: 126,
     },
     {
-        user: "Josh",
-        score: 120
-    }
-]
-localStorage.setItem("highscoresList", JSON.stringify(highscoresList));
+      user: "Luke Skywalker",
+      score: 98,
+    },
+  ];
+
+
+
+// Check if highscores list matches default
+if (localStorage.getItem("highscoreList") === null) {
+    localStorage.setItem("highscoresList", JSON.stringify(highscoresList));
+}
+
 
 // Landing section
 var timerContainer = $("#timer-container");
@@ -91,7 +97,6 @@ var questionH3 = $("#question");
 var timer = 60;
 var userScore = 0;
 
-
 var resultDiv = $("#result");
 var nextBtn = $("#next-btn");
 var qIndex, username;
@@ -99,182 +104,185 @@ var qIndex, username;
 var highscores = $("#highscores");
 var scoreList = $("#score-list");
 var restartButton = $("#restart");
-
-
+var backButton = $("#back");
 
 startButton.on("click", startQuiz);
 highscoresButton.on("click", highscoreSection);
 restartButton.on("click", restart);
+backButton.on("click", goBack);
+
+function goBack() {
+    highscores.addClass("hide");
+    startSection.removeClass("hide");
+    timerContainer.removeClass("hide");
+    // If user has already completed quiz
+    timer = 60;
+    document.getElementById("timer-container").innerHTML =
+    '<span id="timer">60</span> seconds remaining';
+}
 
 function restart() {
+    timerContainer.removeClass("hide");
     timer = 60;
-    document.getElementById("timer-container").innerHTML = '<span id="timer">60</span> seconds remaining';
+    document.getElementById("timer-container").innerHTML =
+    '<span id="timer">60</span> seconds remaining';
     timerContainer.removeClass("hide");
     qIndex = 0;
     startQuiz();
 }
 
 function startQuiz() {
-    username = prompt("enter username");
+  username = prompt("enter username");
+  username ? username : username = "User";
+  console.log(username);
+  
 
-    function quizTimer() {
-        document.getElementById('timer').innerHTML = timer;
-        timer--;
-        if (timer < 0) {
-          document.getElementById("timer-container").innerHTML = "Time's up!";
-        }
-        else {
-          setTimeout(quizTimer, 1000);
-        }
-      }
-    quizTimer()
-    console.log("starting...");
-    startSection.addClass("hide");
-    highscores.addClass("hide");
-    quizSection.removeClass("hide");
-    qIndex = 0;
-    console.log(qIndex);
-    displayQuestion(qIndex);
-    
-
+  function quizTimer() {
+    document.getElementById("timer").innerHTML = timer;
+    timer--;
+    if (timer < 0) {
+      document.getElementById("timer-container").innerHTML = "Time's up!";
+    } else {
+      setTimeout(quizTimer, 1000);
+    }
+  }
+  quizTimer();
+  console.log("starting...");
+  startSection.addClass("hide");
+  highscores.addClass("hide");
+  quizSection.removeClass("hide");
+  qIndex = 0;
+  console.log(qIndex);
+  displayQuestion(qIndex);
 }
 
 function displayQuestion(qIndex) {
-    console.log(typeof qIndex)
-    
-    var title = questions[qIndex]['title'];
-    questionH3.text(title);
-    quizStatus = questions[qIndex]['number'];
-    localStorage.setItem("quizStatus", quizStatus);
-    // list out answers in child divs
-    $.each(questions[qIndex].choices, function (i, choice) { 
-        // console.log(choice);
-        var aClass = 'a' + (i+1);
-        answerDiv.append("<div class='box " + aClass + "'>"+ choice+ "</div>");
-    });
-    checkAnswer(questions[qIndex]);
-}
+  console.log(typeof qIndex);
 
+  var title = questions[qIndex]["title"];
+  questionH3.text(title);
+  quizStatus = questions[qIndex]["number"];
+  localStorage.setItem("quizStatus", quizStatus);
+  // list out answers in child divs
+  $.each(questions[qIndex].choices, function (i, choice) {
+    // console.log(choice);
+    var aClass = "a" + (i + 1);
+    answerDiv.append("<div class='box " + aClass + "'>" + choice + "</div>");
+  });
+  checkAnswer(questions[qIndex]);
+}
 
 // When an answer is clicked
 function checkAnswer(question) {
+  // listen for answer
+  answerDiv.delegate(".box", "click", function () {
+    var selected = $(this).text();
+    // $( this ).addClass("clicked");
+    console.log(selected);
+    answerDiv.off();
+    // Is answer correct?
+    var result = "";
+    if (selected === question.answer) {
+      result = "Correct!";
+      timer += 5;
+      userScore += 4;
 
-    // listen for answer
-    answerDiv.delegate(".box", "click", function() {
-        var selected = $( this ).text()
-        // $( this ).addClass("clicked");
-        console.log(selected);
-        answerDiv.off();
-        // Is answer correct?
-        var result = "";
-        if (selected === question.answer) {
-            result = "Correct!";
-            timer += 5;
-            userScore += 4
+      $(this).addClass("correct");
 
-            $( this ).addClass("correct");
+      console.log(true);
+    } else {
+      result = "Incorrect.";
+      timer -= 15;
+      $(this).addClass("wrong");
+      console.log(false);
+    }
 
-            console.log(true);
-            
-        } else {
-            result = "Incorrect.";
-            timer -= 15;
-            $( this ).addClass("wrong");
-            console.log(false);
-            
-        }
-        
-        resultDiv.text(result);
-        resultDiv.removeClass("hide");
-        nextBtn.removeClass("hide");
+    resultDiv.text(result);
+    resultDiv.removeClass("hide");
+    nextBtn.removeClass("hide");
 
-        // Time penalty?
-        if (!result) {
-            
-        }
-        
-    });
+    // Time penalty?
+    if (!result) {
+    }
+  });
 }
 
 // after answer is selected user goes to next question
 nextBtn.on("click", nextQuestion);
 
 function nextQuestion() {
-    answerDiv.html("");
-    
-    qIndex++;
-    if (timer < 1) {
-        highscoreSection();
-    } else if (qIndex > questions.length - 1) {
-        timerContainer.addClass("hide");
-        highscoreSection();
-    } else {
-        displayQuestion(qIndex);
-    }
-    nextBtn.addClass("hide");
-    resultDiv.addClass("hide");
+  answerDiv.html("");
 
-
+  qIndex++;
+  if (timer < 1) {
+    highscoreSection();
+  } else if (qIndex > questions.length - 1) {
+    timerContainer.addClass("hide");
+    highscoreSection();
+  } else {
+    displayQuestion(qIndex);
+  }
+  nextBtn.addClass("hide");
+  resultDiv.addClass("hide");
 }
 
 function highscoreSection() {
-    scoreList.html("<h3>High Scores</h3><tr><th>Name</th><th>Score</th></tr>")
-    
-    currentStatus = localStorage.getItem("quizStatus");
-    
+  scoreList.html("<tr><th>Name</th><th>Score</th></tr>");
 
-    startSection.addClass("hide");
-    console.log("finished");
-    quizSection.addClass("hide");
-    highscores.removeClass("hide");
-    var list = JSON.parse(localStorage.getItem("highscoresList"));
-    console.log(list);
-    if (username && userScore) {
-        if (timer < 1) {
-            userScore = userScore + (1 * 2) * 3
-        } else {
-            userScore = userScore + (timer * 2) * 3
-        }
-        var userObject = {
-            user: username,
-            score: userScore
-        }
-        list.push(userObject);
+  currentStatus = localStorage.getItem("quizStatus");
 
-        // sorting high scores with new score
-        function scoreSort(a, b) {
-            var scoreA = a.score;
-            const scoreB = b.score;
-          
-            let comparison = 0;
-            if (scoreA > scoreB) {
-              comparison = -1;
-            } else if (scoreA < scoreB) {
-              comparison = 1;
-            }
-            return comparison;
-          }
-        list = list.sort(scoreSort)
-        console.log(list);
-        list.forEach(score => {
-            scoreList.append(
-            "<tr><td>" + score.user + "</td><td>" + score.score + "</td></tr>")
-        });
+  startSection.addClass("hide");
+  console.log("finished");
+  quizSection.addClass("hide");
+  timerContainer.addClass("hide");
+  highscores.removeClass("hide");
+  var newHighscores = JSON.parse(localStorage.getItem("highscoresList"));
+  console.log(newHighscores);
+  if (username && userScore) {
+    if (timer < 1) {
+      userScore = userScore + 3 * 2 * 3;
     } else {
-        list.forEach(score => {
-            scoreList.append(
-            "<tr><td>" + score.user + "</td><td>" + score.score + "</td></tr>")
-        });
+      userScore = userScore + timer * 2 * 3;
     }
-    
-    if (currentStatus < 2) {
-        restartButton.text("Take the quiz!");
+    var userObject = {
+      user: username,
+      score: userScore,
+    };
+    newHighscores.push(userObject);
 
-    } else {
-        restartButton.text("Try again!");
+    // sorting high scores with new score
+    function scoreSort(a, b) {
+      var scoreA = a.score;
+      const scoreB = b.score;
+
+      let comparison = 0;
+      if (scoreA > scoreB) {
+        comparison = -1;
+      } else if (scoreA < scoreB) {
+        comparison = 1;
+      }
+      return comparison;
     }
+    newHighscores = newHighscores.sort(scoreSort);
+    console.log(newHighscores);
+    newHighscores.forEach((score) => {
+      scoreList.append(
+        "<tr><td>" + score.user + "</td><td>" + score.score + "</td></tr>"
+      );
+    });
+  } else {
+    newHighscores.forEach((score) => {
+      scoreList.append(
+        "<tr><td>" + score.user + "</td><td>" + score.score + "</td></tr>"
+      );
+    });
+  }
 
+  if (currentStatus < 2) {
+    restartButton.text("Take the quiz!");
+  } else {
+    restartButton.text("Try again!");
+  }
 
-    localStorage.setItem("highscoresList", JSON.stringify(list));
-
+  localStorage.setItem("highscoresList", JSON.stringify(newHighscores));
 }
