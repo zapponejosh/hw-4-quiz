@@ -93,26 +93,28 @@ var questions = [
 ];
 
 var quizStatus = localStorage.getItem("quizStatus");
-var highscoresList = localStorage.getItem("highscoreList");
-console.log(highscoresList);
+var highscoresList = localStorage.getItem("highscoresList");
+// console.log(highscoresList);
 
-highscoresList = [
-  {
-    user: "My name is Josh",
-    score: 126,
-  },
-  {
-    user: "Luke Skywalker",
-    score: 98,
-  },
-];
+if (highscoresList === null) {
+    // console.log("equal null");
+    
+    highscoresList = [
+        {
+          user: "My name is Josh",
+          score: 126,
+        },
+        {
+          user: "Luke Skywalker",
+          score: 98,
+        },
+      ];
+    localStorage.setItem("highscoresList", JSON.stringify(highscoresList));
+} 
 
 var newHighscores = JSON.parse(localStorage.getItem("highscoresList"));
+// console.log(newHighscores);
 
-// Check if highscores list matches default
-if (JSON.parse(localStorage.getItem("highscoreList")) !== newHighscores) {
-  localStorage.setItem("highscoresList", JSON.stringify(highscoresList));
-}
 
 // Landing section
 var timerContainer = $("#timer-container");
@@ -174,7 +176,7 @@ function startQuiz() {
   userScore = 0;
   username = prompt("enter username");
   username ? username : (username = "User");
-  console.log(username);
+//   console.log(username);
 
   function quizTimer() {
     document.getElementById("timer").innerHTML = timer;
@@ -191,7 +193,7 @@ function startQuiz() {
   highscores.addClass("hide");
   quizSection.removeClass("hide");
   qIndex = 0;
-  console.log(qIndex);
+//   console.log(qIndex);
   displayQuestion(qIndex);
 }
 
@@ -217,7 +219,7 @@ function checkAnswer(question) {
   answerDiv.delegate(".box", "click", function () {
     var selected = $(this).text();
     // $( this ).addClass("clicked");
-    console.log(selected);
+    // console.log(selected);
     answerDiv.off();
     // Is answer correct?
     var result = "";
@@ -228,12 +230,12 @@ function checkAnswer(question) {
 
       $(this).addClass("correct");
 
-      console.log(true);
+    //   console.log(true);
     } else {
       result = "Incorrect.";
       timer -= 15;
       $(this).addClass("wrong");
-      console.log(false);
+    //   console.log(false);
     }
 
     resultDiv.text(result);
@@ -261,7 +263,7 @@ function nextQuestion() {
 }
 
 function newScore() {
-  console.log(newHighscores);
+//   console.log(newHighscores);
   if (username && userScore) {
     if (timer < 1) {
       userScore = userScore + 3 * 2 * 3;
@@ -274,7 +276,7 @@ function newScore() {
     };
     newHighscores.push(userObject);
 
-    console.log(newHighscores);
+    // console.log(newHighscores);
     newHighscores.forEach((score) => {
       scoreList.append(
         "<tr><td>" + score.user + "</td><td>" + score.score + "</td></tr>"
@@ -283,13 +285,13 @@ function newScore() {
   }
   localStorage.setItem("highscoresList", JSON.stringify(newHighscores));
   showScores();
+
 }
 
 function showScores() {
   scoreList.html("<tr><th>Name</th><th>Score</th></tr>");
   startSection.addClass("hide");
   quizSection.addClass("hide");
-  timerContainer.addClass("hide");
   highscores.removeClass("hide");
   currentStatus = localStorage.getItem("quizStatus");
 
@@ -311,7 +313,7 @@ function showScores() {
     }
     return comparison;
   }
-  console.log(newHighscores);
+//   console.log(newHighscores);
   newHighscores.sort(scoreSort);
 
   newHighscores.forEach((score) => {
