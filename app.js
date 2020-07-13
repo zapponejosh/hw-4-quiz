@@ -116,6 +116,11 @@ var newHighscores = JSON.parse(localStorage.getItem("highscoresList"));
 // console.log(newHighscores);
 
 
+
+// put within jquery ready
+// $( document ).ready(function() {  
+// Handler for .ready() called.});
+
 // Landing section
 var timerContainer = $("#timer-container");
 var startSection = $("#landing-container");
